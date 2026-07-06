@@ -1,7 +1,7 @@
 package com.example.authservice.Controllers;
 
 import com.example.authservice.Models.User;
-import com.example.authservice.Repositories.UserRepository;
+import com.example.authservice.Repository.UserRepository;
 import com.example.authservice.Security.JwtService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

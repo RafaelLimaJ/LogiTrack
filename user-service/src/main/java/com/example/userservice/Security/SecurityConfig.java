@@ -27,6 +27,8 @@ public class SecurityConfig {
                 // Desabilita proteção CSRF (não usamos cookies/sessões)
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
+                        // Permite acesso livre ao Swagger
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         // Apenas ADMINs podem ver todos os usuários, criar e deletar
                         .requestMatchers(org.springframework.http.HttpMethod.GET, "/users").hasRole("ADMIN")
                         .requestMatchers(org.springframework.http.HttpMethod.POST, "/users").hasRole("ADMIN")

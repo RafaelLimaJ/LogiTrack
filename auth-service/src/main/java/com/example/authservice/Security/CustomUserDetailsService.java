@@ -1,7 +1,7 @@
 package com.example.authservice.Security;
 
 import com.example.authservice.Models.User;
-import com.example.authservice.Repositories.UserRepository;
+import com.example.authservice.Repository.UserRepository;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

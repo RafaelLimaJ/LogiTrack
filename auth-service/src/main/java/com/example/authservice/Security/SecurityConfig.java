@@ -35,7 +35,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 // Configura quais rotas são abertas e quais precisam de login
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/register", "/auth/login", "/auth/validate").permitAll() // Aberto pra todos
+                        .requestMatchers("/auth/register", "/auth/login", "/auth/validate", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll() // Aberto pra todos e Swagger
                         .anyRequest().authenticated() // Qualquer outra coisa precisa estar logado
                 )
                 // Define que a sessão não guarda estado (stateless)

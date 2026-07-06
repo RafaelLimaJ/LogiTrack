@@ -54,6 +54,64 @@ services:
     volumes:
       - "localstack_data:/var/lib/localstack"
 
+  auth-service:
+    build: ./auth-service
+    container_name: logitrack-auth-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/logitrack_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+
+  user-service:
+    build: ./user-service
+    container_name: logitrack-user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - mysql
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/logitrack_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+
+  order-service:
+    build: ./order-service
+    container_name: logitrack-order-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/logitrack_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+
+  delivery-service:
+    build: ./delivery-service
+    container_name: logitrack-delivery-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/logitrack_db?createDatabaseIfNotExist=true&serverTimezone=UTC
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+
+  tracking-service:
+    build: ./tracking-service
+    container_name: logitrack-tracking-service
+    ports:
+      - "8084:8084"
+    depends_on:
+      - mongodb
+      - kafka
+      - localstack
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://admin:adminpassword@mongodb:27017/logitrack_tracking_db?authSource=admin
+      - SPRING_KAFKA_BOOTSTRAP_SERVERS=kafka:29092
+      - AWS_LOCALSTACK_ENDPOINT=http://localstack:4566
+
 volumes:
   mysql_data:
   mongo_data:

@@ -1,58 +1,50 @@
-# LogiTrack - Sistema de Rastreamento de Entregas
+# Logi Track
 
-Este projeto implementa uma arquitetura de microsserviços para orquestração de pedidos e rastreamento de entregas em tempo real, utilizando Java, Spring Boot, MySQL, MongoDB, Apache Kafka e AWS LocalStack (SQS e DynamoDB).
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white) ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white) ![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
 
-## Desenho da Arquitetura
+## 📌 Sobre o Projeto
 
-O sistema é dividido em 5 microsserviços independentes:
-
-1. **`auth-service`**: Cuida do login, cadastro de usuários e geração do token JWT. Possui banco de dados MySQL próprio.
-2. **`user-service`**: CRUD de usuários do sistema. Protegido por autenticação JWT e validação de roles (RBAC).
-3. **`order-service`**: Gerencia a criação e atualização de pedidos. Quando um pedido é criado com status "PENDENTE", publica um evento no Kafka.
-4. **`delivery-service`**: Ouve os eventos do Kafka de novos pedidos e gera automaticamente a entrega correspondente. Permite alterar o status da entrega e publica atualizações no Kafka.
-5. **`tracking-service`**: Consome eventos de entregas via Kafka e:
-   - Salva a situação atualizada no **MongoDB**.
-   - Dispara uma notificação para uma fila **AWS SQS** no LocalStack.
-   - Grava um histórico permanente em uma tabela **AWS DynamoDB** no LocalStack.
+O **Logi Track** é um projeto desenvolvido com foco em boas práticas de programação, estrutura limpa e organização de código.
 
 ---
 
-## Como Rodar Localmente (Ambiente Completo)
+## 🛠️ Tecnologias Utilizadas
+
+- **Linguagem Principal**: Java (JDK 17+)
+- **Containerização**: Docker
+
+---
+
+## 🚀 Como Executar o Projeto
 
 ### Pré-requisitos
-- **Java 17** e **Maven** instalados localmente (se quiser compilar os jars manualmente).
-- **Docker** e **Docker Compose** instalados e rodando na máquina.
+- Java Development Kit (JDK) 17 ou superior
+- Git instalado na máquina
 
-### Passo 1: Compilar as aplicações Java
-Rode o seguinte comando na raiz de cada uma das subpastas (`auth-service`, `user-service`, `order-service`, `delivery-service`, `tracking-service`):
-```bash
-mvn clean package -DskipTests
-```
-Isso vai gerar o arquivo `.jar` na pasta `target/` de cada microsserviço.
+### Passo a Passo
 
-### Passo 2: Subir os containers do Docker
-Na pasta raiz do projeto (onde está localizado o arquivo `docker-compose.yml`), execute o comando:
 ```bash
-docker compose up --build
+# 1. Clonar o repositório
+git clone https://github.com/RafaelLimaJ/LogiTrack.git
+
+# 2. Acessar o diretório do projeto
+cd LogiTrack
+
+# 3. Compilar e rodar a classe principal
+javac src/*.java
+java src/Main
 ```
-Esse comando irá compilar as imagens customizadas dos microsserviços e subir todas as dependências:
-- MySQL (porta externa `3307`)
-- MongoDB (porta externa `27017`)
-- Apache Kafka (porta externa `9092`)
-- LocalStack (porta externa `4566`)
-- `auth-service` (porta `8080`)
-- `user-service` (porta `8081`)
-- `order-service` (porta `8082`)
-- `delivery-service` (porta `8083`)
-- `tracking-service` (porta `8084`)
 
 ---
 
-## Documentação dos Endpoints (Swagger)
+## 📂 Estrutura do Repositório
 
-Com o Docker Compose ativo, você pode abrir o Swagger UI individual de cada serviço para testar as rotas:
-- **Auth Service**: `http://localhost:8080/swagger-ui.html`
-- **User Service**: `http://localhost:8081/swagger-ui.html`
-- **Order Service**: `http://localhost:8082/swagger-ui.html`
-- **Delivery Service**: `http://localhost:8083/swagger-ui.html`
-- **Tracking Service**: `http://localhost:8084/swagger-ui.html`
+O projeto possui uma organização focada na legibilidade do código e separação de responsabilidades.
+
+---
+
+## ✒️ Autor
+
+Desenvolvido por **Rafael Lima**  
+🔗 [GitHub: @RafaelLimaJ](https://github.com/RafaelLimaJ)  
+✉️ Entre em contato via GitHub para mais informações ou contribuições!
